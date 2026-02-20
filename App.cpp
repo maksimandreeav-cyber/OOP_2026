@@ -43,6 +43,7 @@ void SelectRunAction(int& number, Flat& lastObject, Flat*& array, int& lenArray)
 }
 
 void App() {
+    Flat::count = initValue;
     int numberAction{initValue};
     Flat LastObject{};
     Flat* ArrayObject = nullptr;
