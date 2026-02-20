@@ -56,6 +56,7 @@ const char* Flat::getAddress() const {
     return address ? address : "";
 }
 int Flat::getCount() {
+    static int count = 0;
     return count;
 }
 
