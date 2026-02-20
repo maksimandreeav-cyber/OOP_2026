@@ -16,7 +16,7 @@ Flat::Flat(const Flat& other) : distanceMetroMinut(other.distanceMetroMinut), is
     if (other.address != nullptr) {
         size_t len = std::strlen(other.address);
         address = new char[len + 1];
-        strlcpy(address, other.address, len + 1);
+        strncpy(address, other.address, len + 1);
     }
     ++count;
 }
@@ -40,7 +40,7 @@ Flat& Flat::operator=(const Flat& other) {
         address = new char[std::strlen(other.address) + 1];
         size_t len = std::strlen(other.address);
         address = new char[len + 1];
-        strlcpy(address, other.address, len + 1);
+        strncpy(address, other.address, len + 1);
     } else {
         address = nullptr;
     }
@@ -73,7 +73,7 @@ void Flat::setAddress(const char* addr) {
     if (addr != nullptr && std::strlen(addr) > 0) {
         size_t len = std::strlen(addr);
         address = new char[len + 1];
-        strlcpy(address, addr, len + 1);
+        strncpy(address, addr, len + 1);
     } else {
         address = nullptr;
     }
