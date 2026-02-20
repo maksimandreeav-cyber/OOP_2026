@@ -18,7 +18,6 @@ class Flat {
 
     Flat& operator=(const Flat& other);
 
-    static int getCount();
     int getDistanceMetroMinut() const;
     bool getIsRepair() const;
     const char* getAddress() const;
