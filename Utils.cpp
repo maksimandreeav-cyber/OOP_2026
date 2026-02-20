@@ -1,15 +1,13 @@
 #include "Utils.h"
 
-int Flat::count = 0; 
-
 Flat::Flat() : distanceMetroMinut(0), isRepair(false), address(nullptr) {
     setAddress("");
-    ++count;
+    setCount(1);
 }
 
 Flat::Flat(int dist, bool repair, const char* addr) : distanceMetroMinut(dist), isRepair(repair), address(nullptr) {
     setAddress(addr);
-    ++count;
+    setCount(1);
 }
 
 Flat::Flat(const Flat& other) : distanceMetroMinut(other.distanceMetroMinut), isRepair(other.isRepair), address(nullptr) {
@@ -18,12 +16,12 @@ Flat::Flat(const Flat& other) : distanceMetroMinut(other.distanceMetroMinut), is
         address = new char[len + 1];
         strncpy(address, other.address, len + 1);
     }
-    ++count;
+    setCount(1);
 }
 
 Flat::~Flat() {
     delete[] address;
-    --count;
+    setCount(-1);
 }
 
 Flat& Flat::operator=(const Flat& other) {
@@ -48,9 +46,6 @@ Flat& Flat::operator=(const Flat& other) {
     return *this;
 }
 
-int Flat::getCount() {
-    return count;
-}
 int Flat::getDistanceMetroMinut() const {
     return distanceMetroMinut;
 }
@@ -60,7 +55,13 @@ bool Flat::getIsRepair() const {
 const char* Flat::getAddress() const {
     return address ? address : "";
 }
+int Flat::getCount() const {
+    return count;
+}
 
+void Flat::setCount(int value) {
+    count = count + value;
+}
 void Flat::setDistanceMetroMinut(int dist) {
     distanceMetroMinut = dist;
 }

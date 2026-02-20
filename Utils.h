@@ -22,7 +22,9 @@ class Flat {
     int getDistanceMetroMinut() const;
     bool getIsRepair() const;
     const char* getAddress() const;
+    static int getCount();
 
+    static void setCount(int value);
     void setDistanceMetroMinut(int dist);
     void setIsRepair(bool repair);
     void setAddress(const char* addr);
