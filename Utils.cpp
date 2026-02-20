@@ -55,7 +55,7 @@ bool Flat::getIsRepair() const {
 const char* Flat::getAddress() const {
     return address ? address : "";
 }
-static int Flat::getCount() {
+int Flat::getCount() {
     return count;
 }
 
