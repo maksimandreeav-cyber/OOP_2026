@@ -1,6 +1,6 @@
 #include "Utils.h"
 
-int Flat::count = 0;
+int Flat::count = initValue;
 
 Flat::Flat() : distanceMetroMinut(0), isRepair(false), address(nullptr) {
     setAddress("");
