@@ -7,9 +7,9 @@ class Flat {
     int distanceMetroMinut;
     bool isRepair;
     char* address;
-    static int count;
 
  public:
+    static std::atomic<int> count;
     Flat();
     Flat(int dist, bool repair, const char* addr);
     Flat(const Flat& other);

@@ -1,6 +1,6 @@
 #include "Utils.h"
 
-int Flat::count = 0;
+std::atomic<int> Flat::count{0};
 
 Flat::Flat() : distanceMetroMinut(0), isRepair(false), address(nullptr) {
     setAddress("");
