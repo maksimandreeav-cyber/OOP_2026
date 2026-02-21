@@ -56,12 +56,12 @@ const char* Flat::getAddress() const {
     return address ? address : "";
 }
 int Flat::getCount() {
-    static int count = initValue;
+    static int count = 0;
     return count;
 }
 
 void Flat::setCount(int value) {
-    static int count = initValue;
+    static int count = 0;
     count += value;
 }
 void Flat::setDistanceMetroMinut(int dist) {
