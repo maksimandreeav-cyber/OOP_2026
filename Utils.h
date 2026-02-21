@@ -7,7 +7,7 @@ class Flat {
     int distanceMetroMinut;
     bool isRepair;
     char* address;
-    static int count = 0;
+    static int count;
 
  public:
     Flat();
