@@ -1,5 +1,7 @@
 #include "Utils.h"
 
+int Flat::count = 0;
+
 Flat::Flat() : distanceMetroMinut(0), isRepair(false), address(nullptr) {
     setAddress("");
     setCount(1);
@@ -56,12 +58,10 @@ const char* Flat::getAddress() const {
     return address ? address : "";
 }
 int Flat::getCount() {
-    static int count = 0;
     return count;
 }
 
 void Flat::setCount(int value) {
-    static int count = 0;
     count += value;
 }
 void Flat::setDistanceMetroMinut(int dist) {
