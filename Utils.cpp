@@ -1,7 +1,5 @@
 #include "Utils.h"
 
-#include <atomic>
-
 std::atomic<int> Flat::count{0};
 
 Flat::Flat() : distanceMetroMinut(0), isRepair(false), address(nullptr) {

@@ -1,6 +1,7 @@
 #include <cstring>
 #include <iostream>
 #include <limits>
+#include <atomic>
 
 class Flat {
  private:
