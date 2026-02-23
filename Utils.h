@@ -1,40 +1,17 @@
 #include <cstring>
 #include <iostream>
 #include <limits>
-
-class Flat {
- private:
-    int distanceMetroMinut;
-    bool isRepair;
-    char* address;
-
- public:
-    static int count;
-    Flat();
-    Flat(int dist, bool repair, const char* addr);
-    Flat(const Flat& other);
-
-    ~Flat();
-
-    Flat& operator=(const Flat& other);
-
-    int getDistanceMetroMinut() const;
-    bool getIsRepair() const;
-    const char* getAddress() const;
-    static int getCount();
-
-    static void setCount(int value);
-    void setDistanceMetroMinut(int dist);
-    void setIsRepair(bool repair);
-    void setAddress(const char* addr);
-
-    friend std::ostream& operator<<(std::ostream& os, const Flat& flat);
-    friend std::istream& operator>>(std::istream& is, Flat& flat);
-};
+#include "Flat.h"
 
 void CreateObject(Flat& lastObject);
 void OutputLastObject(Flat* lastObject);
 void InputObject(Flat* lastObject, Flat*& array, int& lenArray);
 void OutputArrayConsole(Flat* array, int lenArray);
+void SaveArray(const char* filename, Flat* array, int lenArray);
+void ReadFile(const char* filename, Flat*& array, int& lenArray);
+void DeleteObject(Flat*& array, int& lenArray);
+void SortArray(Flat*& array, int& lenArray);
+void SearchObject(Flat* array, int lenArray);
+void ReductionElement(Flat*& array, int lenArray);
 
-void App();
+void App(const char* filename);
