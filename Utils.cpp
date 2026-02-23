@@ -1,29 +1,30 @@
 #include "Utils.h"
 
-std::atomic<int> Flat::count{0};
+namespace {
+const int kInitValue = 0;
+const int kSummandForNextIndex = 1;
+const int kMinStrLen = 0;
+const int kBufferSize = 1024;
+}  // namespace
 
-Flat::Flat() : distanceMetroMinut(0), isRepair(false), address(nullptr) {
+Flat::Flat() : distanceMetroMinut(kInitValue), isRepair(false), address(nullptr) {
     setAddress("");
-    setCount(1);
 }
 
 Flat::Flat(int dist, bool repair, const char* addr) : distanceMetroMinut(dist), isRepair(repair), address(nullptr) {
     setAddress(addr);
-    setCount(1);
 }
 
 Flat::Flat(const Flat& other) : distanceMetroMinut(other.distanceMetroMinut), isRepair(other.isRepair), address(nullptr) {
     if (other.address != nullptr) {
         size_t len = std::strlen(other.address);
-        address = new char[len + 1];
-        strncpy(address, other.address, len + 1);
+        address = new char[len + kSummandForNextIndex];
+        strncpy(address, other.address, len + kSummandForNextIndex);
     }
-    setCount(1);
 }
 
 Flat::~Flat() {
     delete[] address;
-    setCount(-1);
 }
 
 Flat& Flat::operator=(const Flat& other) {
@@ -37,10 +38,10 @@ Flat& Flat::operator=(const Flat& other) {
     isRepair = other.isRepair;
 
     if (other.address != nullptr) {
-        address = new char[std::strlen(other.address) + 1];
+        address = new char[std::strlen(other.address) + kSummandForNextIndex];
         size_t len = std::strlen(other.address);
-        address = new char[len + 1];
-        strncpy(address, other.address, len + 1);
+        address = new char[len + kSummandForNextIndex];
+        strncpy(address, other.address, len + kSummandForNextIndex);
     } else {
         address = nullptr;
     }
@@ -57,13 +58,7 @@ bool Flat::getIsRepair() const {
 const char* Flat::getAddress() const {
     return address ? address : "";
 }
-int Flat::getCount() {
-    return count;
-}
 
-void Flat::setCount(int value) {
-    count += value;
-}
 void Flat::setDistanceMetroMinut(int dist) {
     distanceMetroMinut = dist;
 }
@@ -73,10 +68,10 @@ void Flat::setIsRepair(bool repair) {
 void Flat::setAddress(const char* addr) {
     delete[] address;
 
-    if (addr != nullptr && std::strlen(addr) > 0) {
+    if (addr != nullptr && std::strlen(addr) > kMinStrLen) {
         size_t len = std::strlen(addr);
-        address = new char[len + 1];
-        strncpy(address, addr, len + 1);
+        address = new char[len + kSummandForNextIndex];
+        strncpy(address, addr, len + kSummandForNextIndex);
     } else {
         address = nullptr;
     }
@@ -109,11 +104,10 @@ std::istream& operator>>(std::istream& is, Flat& flat) {
         return is;
     }
 
-    is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    is.ignore(kBufferSize, '\n');
     std::cout << "Введите адрес: ";
-    const int BUFFER_SIZE = 1024;
-    char address_buffer[BUFFER_SIZE];
-    if (is.getline(address_buffer, BUFFER_SIZE)) {
+    char address_buffer[kBufferSize];
+    if (is.getline(address_buffer, kBufferSize)) {
         flat.setDistanceMetroMinut(dist);
         flat.setIsRepair(repair);
         flat.setAddress(address_buffer);
@@ -139,27 +133,27 @@ void OutputLastObject(Flat* lastObject) {
 }
 
 void InputObject(Flat* lastObject, Flat*& array, int& lenArray) {
-    lenArray += 1;
+    lenArray++;
     Flat* newArray = new Flat[lenArray];
 
     if (array != nullptr) {
-        for (int i = 0; i < lenArray - 1; ++i) {
+        for (int i = kInitValue; i < lenArray - kSummandForNextIndex; ++i) {
             newArray[i] = array[i];
         }
         delete[] array;
     }
 
-    newArray[lenArray - 1] = *lastObject;
+    newArray[lenArray - kSummandForNextIndex] = *lastObject;
 
     array = newArray;
 }
 
 void OutputArrayConsole(Flat* array, int lenArray) {
-    if (lenArray <= 0) {
+    if (lenArray <= kMinStrLen) {
         std::cerr << "Массив пуст!\n";
         return;
     }
-    for (int i = 0; i < lenArray; i++) {
+    for (int i = kInitValue; i < lenArray; i++) {
         std::cout << array[i] << std::endl;
     }
 }

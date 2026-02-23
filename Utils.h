@@ -1,7 +1,6 @@
 #include <cstring>
 #include <iostream>
 #include <limits>
-#include <atomic>
 
 class Flat {
  private:
@@ -10,7 +9,6 @@ class Flat {
     char* address;
 
  public:
-    static std::atomic<int> count;
     Flat();
     Flat(int dist, bool repair, const char* addr);
     Flat(const Flat& other);
@@ -22,9 +20,7 @@ class Flat {
     int getDistanceMetroMinut() const;
     bool getIsRepair() const;
     const char* getAddress() const;
-    static int getCount();
 
-    static void setCount(int value);
     void setDistanceMetroMinut(int dist);
     void setIsRepair(bool repair);
     void setAddress(const char* addr);
