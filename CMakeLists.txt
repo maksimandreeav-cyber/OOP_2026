@@ -9,11 +9,13 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/App.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Flat.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ArrayFlat.cpp
 )
 
 set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/Utils.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Flat.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/ArrayFlat.h
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})

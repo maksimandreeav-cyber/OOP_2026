@@ -2,7 +2,7 @@
 #include <limits>
 
 namespace {
-const int BUFFER_SIZE = 1024;
+const int kBufferSize = 1024;
 const int kInitValue = 0;
 const int kSummandForNextIndex = 1;
 const int kMinSrtLen = 0;
@@ -10,11 +10,13 @@ const int kMinMinut = 0;
 }  // namespace
 
 Flat::Flat() : distanceMetroMinut(kInitValue), isRepair(false), address(nullptr) {
+    count++;
     setAddress("");
 }
 
 Flat::Flat(int dist, bool repair, char* addr) : distanceMetroMinut(dist), isRepair(repair), address(nullptr) {
     setAddress(addr);
+    count++;
 }
 
 Flat::Flat(const Flat& other) : distanceMetroMinut(other.distanceMetroMinut), isRepair(other.isRepair), address(nullptr) {
@@ -23,10 +25,12 @@ Flat::Flat(const Flat& other) : distanceMetroMinut(other.distanceMetroMinut), is
         address = new char[len + kSummandForNextIndex];
         strncpy(address, other.address, len + kSummandForNextIndex);
     }
+    count++;
 }
 
 Flat::~Flat() {
     delete[] address;
+    count--;
 }
 
 Flat& Flat::operator=(const Flat& other) {
@@ -59,6 +63,9 @@ bool Flat::getIsRepair() const {
 }
 const char* Flat::getAddress() const {
     return address ? address : "";
+}
+int Flat::getCount() {
+    return count;
 }
 
 void Flat::setDistanceMetroMinut(int dist) {
@@ -112,8 +119,8 @@ std::istream& operator>>(std::istream& is, Flat& flat) {
 
     is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::cout << "Введите адрес: ";
-    char address_buffer[BUFFER_SIZE];
-    if (is.getline(address_buffer, BUFFER_SIZE)) {
+    char address_buffer[kBufferSize];
+    if (is.getline(address_buffer, kBufferSize)) {
         flat.setDistanceMetroMinut(dist);
         flat.setIsRepair(repair);
         flat.setAddress(address_buffer);

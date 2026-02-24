@@ -1,66 +1,59 @@
+#include "ArrayFlat.h"
 #include "Flat.h"
 #include "Utils.h"
 
 namespace {
-const int initValue = 0;
+const int kinitValue = 0;
 
 enum class NumbersAction {
     create = 3,
-    outputElement = 4,
-    input = 5,
-    outputConsole = 9,
-    delet = 6,
-    sort = 7,
-    search = 8,
+    outputConsole = 8,
+    delet = 4,
+    sort = 5,
+    search = 6,
     save = 2,
     read = 1,
-    reduct = 10,
-    exit = 11
+    reduct = 7,
+    exit = 9
 };
 }  // namespace
 
 void Menu() {
-    std::cout << "Выберите действие:\n1. Чтение объектов из файла\n2. Сохранить массив в файл\n3. Создать новый элемент\n4. Вывод текущего элемента "
-                 "в консоль\n5. Добавить текущий элемент в массив\n6. Удаление объктов\n7. Сортировка массива\n8. Поиск элемента\n9. Вывести массив "
-                 "на экран\n10. Редактировать элемент\n11. Завершить работу программы\n";
+    std::cout << "Выберите действие:\n1. Чтение объектов из файла\n2. Сохранить массив в файл\n3. Создать новый элемент в массив\n"
+                 "4. Удаление объктов\n5. Сортировка массива\n6. Поиск элемента\n7. Редактировать элемент"
+                 "\n8. Вывести массив на экран \n9. Завершить работу программы\n";
 }
 
-void SelectRunAction(int& number, Flat& lastObject, Flat*& array, int& lenArray, const char* filename) {
+void SelectRunAction(int& number, const char* filename) {
     if (!(std::cin >> number)) {
         return;
     }
     switch (number) {
         case (static_cast<int>(NumbersAction::create)):
-            CreateObject(lastObject);
-            break;
-        case (static_cast<int>(NumbersAction::outputElement)):
-            OutputLastObject(&lastObject);
-            break;
-        case (static_cast<int>(NumbersAction::input)):
-            InputObject(&lastObject, array, lenArray);
+            ArrayFlat::CreateObject();
             break;
         case (static_cast<int>(NumbersAction::outputConsole)):
-            OutputArrayConsole(array, lenArray);
+            ArrayFlat::OutputArrayConsole();
             break;
         case (static_cast<int>(NumbersAction::exit)):
             break;
         case (static_cast<int>(NumbersAction::delet)):
-            DeleteObject(array, lenArray);
+            ArrayFlat::DeleteObject();
             break;
         case (static_cast<int>(NumbersAction::sort)):
-            SortArray(array, lenArray);
+            ArrayFlat::SortArray();
             break;
         case (static_cast<int>(NumbersAction::search)):
-            SearchObject(array, lenArray);
+            ArrayFlat::SearchObject();
             break;
         case (static_cast<int>(NumbersAction::save)):
-            SaveArray(filename, array, lenArray);
+            ArrayFlat::SaveArray(filename);
             break;
         case (static_cast<int>(NumbersAction::read)):
-            ReadFile(filename, array, lenArray);
+            ArrayFlat::ReadFile(filename);
             break;
         case (static_cast<int>(NumbersAction::reduct)): {
-            ReductionElement(array, lenArray);
+            ArrayFlat::ReductionElement();
             break;
         }
         default:
@@ -70,14 +63,10 @@ void SelectRunAction(int& number, Flat& lastObject, Flat*& array, int& lenArray,
 }
 
 void App(const char* filename) {
-    int numberAction{initValue};
-    Flat LastObject{};
-    Flat* ArrayObject = nullptr;
-    int lenArray = initValue;
+    int numberAction{kinitValue};
+    ArrayFlat arrayFlatInstance;
     while (numberAction != static_cast<int>(NumbersAction::exit)) {
         Menu();
-        SelectRunAction(numberAction, LastObject, ArrayObject, lenArray, filename);
+        SelectRunAction(numberAction, filename);
     }
-
-    delete[] ArrayObject;
 }

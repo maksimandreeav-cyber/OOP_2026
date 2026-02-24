@@ -9,6 +9,7 @@ class Flat {
     int distanceMetroMinut;
     bool isRepair;
     char* address;
+    static inline int count = 0;
 
  public:
     Flat();
@@ -22,6 +23,7 @@ class Flat {
     int getDistanceMetroMinut() const;
     bool getIsRepair() const;
     const char* getAddress() const;
+    static int getCount();
 
     void setDistanceMetroMinut(int dist);
     void setIsRepair(bool repair);
