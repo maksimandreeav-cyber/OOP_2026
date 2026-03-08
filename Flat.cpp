@@ -11,12 +11,14 @@ const int kMinMinut = 0;
 
 Flat::Flat() : distanceMetroMinut(kInitValue), isRepair(false), address(nullptr) {
     count++;
+    std::cout << "Работа конструктора по умолчанию\n id = " << Flat::getCount() << std::endl;
     setAddress("");
 }
 
 Flat::Flat(int dist, bool repair, char* addr) : distanceMetroMinut(dist), isRepair(repair), address(nullptr) {
     setAddress(addr);
     count++;
+    std::cout << "Работа конструктора с параметрами\n id = " << Flat::getCount() << std::endl;
 }
 
 Flat::Flat(const Flat& other) : distanceMetroMinut(other.distanceMetroMinut), isRepair(other.isRepair), address(nullptr) {
@@ -26,11 +28,13 @@ Flat::Flat(const Flat& other) : distanceMetroMinut(other.distanceMetroMinut), is
         strncpy(address, other.address, len + kSummandForNextIndex);
     }
     count++;
+    std::cout << "Работа конструктора копирования\n id = " << Flat::getCount() << std::endl;
 }
 
 Flat::~Flat() {
     delete[] address;
     count--;
+    std::cout << "Работа десструктора\n id = " << Flat::getCount() << std::endl;
 }
 
 Flat& Flat::operator=(const Flat& other) {

@@ -267,9 +267,9 @@ void ArrayFlat::DeleteObject() {
                         std::cout << "Должен ли быть ремонт (y - да, n - нет, для сброса параметра введите любой другой символ): ";
                         char symbols{};
                         std::cin >> symbols;
-                        if (symbols == 'y' || symbols == 'Y') {
+                        if (symbols == 'y') {
                             repairParametr = static_cast<int>(ParametrValues::isRepairHave);
-                        } else if (symbols == 'n' || symbols == 'N') {
+                        } else if (symbols == 'n') {
                             repairParametr = static_cast<int>(ParametrValues::isRepairNotHave);
                         } else {
                             repairParametr = static_cast<int>(ParametrValues::isRepairBoundary);
@@ -361,7 +361,7 @@ void ArrayFlat::SortArray() {
     std::cout << "Сортируем по убыванию? (y/n): ";
     char symbol{};
     std::cin >> symbol;
-    bool isDecrease = (symbol == 'y' || symbol == 'Y');
+    bool isDecrease = (symbol == 'y');
 
     for (int i = kInitValue; i < lenArray - 1; ++i) {
         for (int j = kInitValue; j < lenArray - i - 1; ++j) {
@@ -379,7 +379,6 @@ void ArrayFlat::SortArray() {
                 case NumberParametr::isRepair: {
                     bool repair1 = array[j].getIsRepair();
                     bool repair2 = array[j + 1].getIsRepair();
-                    // При сортировке по убыванию сначала идут true (есть ремонт)
                     shouldSwap = isDecrease ? (!repair1 && repair2) : (repair1 && !repair2);
                     break;
                 }
@@ -432,9 +431,9 @@ void ArrayFlat::SearchObject() {
                         std::cout << "Должен ли быть ремонт (y - да, n - нет, для сброса параметра введите любой другой символ): ";
                         char symbols{};
                         std::cin >> symbols;
-                        if (symbols == 'y' || symbols == 'Y') {
+                        if (symbols == 'y') {
                             repairParametr = static_cast<int>(ParametrValues::isRepairHave);
-                        } else if (symbols == 'n' || symbols == 'N') {
+                        } else if (symbols == 'n') {
                             repairParametr = static_cast<int>(ParametrValues::isRepairNotHave);
                         } else {
                             repairParametr = static_cast<int>(ParametrValues::isRepairBoundary);
@@ -463,17 +462,14 @@ void ArrayFlat::SearchObject() {
             case NumberSearchActions::output: {
                 int countFind = kInitValue;
                 for (int i = kInitValue; i < lenArray; ++i) {
-                    // Прямая проверка условий внутри цикла
                     bool isSuitable = true;
 
-                    // Проверка по адресу
                     if (strlen(addrParametr) > static_cast<int>(ParametrValues::addressLowerBoundaryLen)) {
                         if (std::strcmp(addrParametr, array[i].getAddress()) != kCoincidence) {
                             isSuitable = false;
                         }
                     }
 
-                    // Проверка по расстоянию до метро
                     if (distLeftParametr >= static_cast<int>(ParametrValues::distLowerBoundaryValue) &&
                         distRightParametr >= static_cast<int>(ParametrValues::distLowerBoundaryValue)) {
                         int distance = array[i].getDistanceMetroMinut();
@@ -482,7 +478,6 @@ void ArrayFlat::SearchObject() {
                         }
                     }
 
-                    // Проверка по наличию ремонта
                     if (repairParametr != static_cast<int>(ParametrValues::isRepairBoundary)) {
                         bool hasRepair = array[i].getIsRepair();
                         if ((repairParametr == static_cast<int>(ParametrValues::isRepairHave) && !hasRepair) ||
@@ -532,6 +527,8 @@ void ArrayFlat::ReductionElement() {
         case NumberParametr::address: {
             char buffer[kBufferSize];
             std::cout << "Введите адрес: ";
+            std::cin.clear();
+            std::cin.ignore(kBufferSize, '\n');
             std::cin.getline(buffer, kBufferSize);
             array[indexElement].setAddress(buffer);
             break;
