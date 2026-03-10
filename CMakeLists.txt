@@ -4,22 +4,34 @@ project(FractionTest)
 
 set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
 
-set(SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+set(FRACTION_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Fraction.cpp
 )
 
-set(HEADERS
+set(FRACTION_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/Fraction.h
 )
 
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
+set(APP_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+)
+
+add_library(Fraction STATIC ${FRACTION_SOURCES})
+set_property(TARGET Fraction PROPERTY CXX_STANDARD 20)
+target_include_directories(Fraction PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_compile_options(Fraction PRIVATE
+    -Wall
+    -Wextra
+    -Werror
+    -Wpedantic
+)
+
+add_executable(${CMAKE_PROJECT_NAME} ${APP_SOURCES})
+target_link_libraries(${CMAKE_PROJECT_NAME} Fraction)
+
 set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wpedantic)
-
-if(ENABLE_DEBUG)
-    target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -g)
-endif()
 
 add_custom_target(
     clang-format
@@ -29,7 +41,3 @@ add_custom_target(
     ${SOURCES}
     ${HEADERS}
 )
-
-add_library(Fraction Fraction.cpp)
-add_executable(app main.cpp)
-target_link_libraries(app Fraction)
