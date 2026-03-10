@@ -3,11 +3,11 @@
 #include <cstring>
 
 namespace {
-    const int kNumberDecimalPlaces = 4;
-    const int kBase = 10;
-    const int kInitKoef = 1;
-    const int kBufferSize = 256;
-}
+const int kNumberDecimalPlaces = 4;
+const int kBase = 10;
+const int kBufferSize = 256;
+const double kSummandRound = 0.5;
+}  // namespace
 
 int Fraction::gcd(int a, int b) {
     a = std::abs(a);
@@ -30,13 +30,12 @@ int Fraction::parseNumber(const char*& str) {
     }
 
     while (*str >= '0' and *str <= '9') {
-        result = result * 10 + (*str - '0');
+        result = result * kBase + (*str - '0');
         ++str;
     }
 
     return isNegative ? -result : result;
 }
-
 
 void Fraction::Simplification() {
     if (denominator == 0) {
@@ -59,13 +58,26 @@ void Fraction::Simplification() {
     denominator /= division;
 }
 
-Fraction::Fraction() : numerator(0), denominator(1) {}
+Fraction::Fraction() : numerator(0), denominator(1) {
+}
 
 Fraction::Fraction(int num, int den) : numerator(num), denominator(den) {
     Simplification();
 }
 
-Fraction::Fraction(double a) : numerator(a * pow(kBase, kNumberDecimalPlaces)) , denominator(pow(kBase, kNumberDecimalPlaces)) {}
+Fraction::Fraction(double a) {
+    int scale = static_cast<int>(std::pow(kBase, kNumberDecimalPlaces) + kSummandRound);
+    double scaledValue = a * scale;
+    int intPart{};
+    if (scaledValue >= 0) {
+        intPart = static_cast<int>(scaledValue + kSummandRound);
+    } else {
+        intPart = static_cast<int>(scaledValue - kSummandRound);
+    }
+    numerator = intPart;
+    denominator = scale;
+    Simplification();
+}
 
 Fraction::Fraction(const char* line) {
     const char* ptr = line;
@@ -77,11 +89,12 @@ Fraction::Fraction(const char* line) {
         return;
     }
     if (*ptr == ' ') {
-        ++ptr; 
+        ++ptr;
         int b = parseNumber(ptr);
 
         if (*ptr != '/') {
-            std::cerr << "Неверный формат ввода смешаной дроби";
+            std::cerr << "Неверный формат ввода смешаной дроби\n";
+            std::exit(1);
         }
         ++ptr;
         int c = parseNumber(ptr);
@@ -92,20 +105,18 @@ Fraction::Fraction(const char* line) {
             numerator = a * c + b;
         }
         denominator = c;
-    }
-    else if (*ptr == '/') {
+    } else if (*ptr == '/') {
         ++ptr;
         int b = parseNumber(ptr);
         numerator = a;
         denominator = b;
-    }
-    else {
+    } else {
         numerator = a;
         denominator = 1;
     }
 
     if (denominator == 0) {
-        std::cerr << "знаменатель не может быть равен 0\n";
+        std::cerr << "знаменатель не может быть равен 0, принят за 1\n";
         denominator = 1;
         return;
     }
@@ -113,10 +124,8 @@ Fraction::Fraction(const char* line) {
     Simplification();
 }
 
-
-Fraction::Fraction(const Fraction& fraction)
-    : numerator(fraction.GetNumerator()), denominator(fraction.GetDenominator()) {}
-
+Fraction::Fraction(const Fraction& fraction) : numerator(fraction.GetNumerator()), denominator(fraction.GetDenominator()) {
+}
 
 int Fraction::GetNumerator() const {
     return numerator;
@@ -150,9 +159,8 @@ std::ostream& operator<<(std::ostream& os, const Fraction& fraction) {
 }
 
 std::istream& operator>>(std::istream& is, Fraction& fraction) {
-    char buffer[256];
+    char buffer[kBufferSize];
     if (!is.getline(buffer, sizeof(buffer))) {
-        is.setstate(std::ios::failbit);
         return is;
     }
     fraction = Fraction(buffer);
@@ -162,7 +170,7 @@ std::istream& operator>>(std::istream& is, Fraction& fraction) {
 
 Fraction& Fraction::operator=(const Fraction& other) {
     if (this == &other) {
-        return *this; // Защита от самоприсваивания
+        return *this;
     }
 
     numerator = other.numerator;
@@ -210,30 +218,75 @@ Fraction& Fraction::operator+=(double other) {
 }
 
 Fraction Fraction::operator+(const Fraction& other) {
-    int newNumerator = numerator * other.denominator + other.numerator * denominator;
-    int newDenominator = denominator * other.denominator;
-    return Fraction(newNumerator, newDenominator);
+    Fraction result = *this;
+    result += other;
+    return result;
 }
 
 Fraction Fraction::operator+(int other) {
-    return Fraction(numerator + other * denominator, denominator);
+    Fraction result = *this;
+    result += other;
+    return result;
 }
 
-Fraction Fraction::operator+( double right) {
+Fraction Fraction::operator+(double other) {
+    Fraction result = *this;
+    result += other;
+    return result;
+}
+
+Fraction& Fraction::operator-=(const Fraction& other) {
+    int newNumerator = numerator * other.GetDenominator() - other.GetNumerator() * denominator;
+    int newDenominator = denominator * other.GetDenominator();
+
+    numerator = newNumerator;
+    denominator = newDenominator;
+    Simplification();
+    return *this;
+}
+
+Fraction& Fraction::operator-=(int other) {
+    numerator -= other * denominator;
+    Simplification();
+    return *this;
+}
+
+Fraction& Fraction::operator-=(double other) {
     int scale = static_cast<int>(std::pow(kBase, kNumberDecimalPlaces));
-    int intPart = static_cast<int>(right * scale);
-    Fraction rightFrac(intPart, scale);
-    return *this + rightFrac;
+    int intPart = static_cast<int>(other * scale);
+    Fraction otherFrac(intPart, scale);
+    *this -= otherFrac;
+    return *this;
+}
+
+Fraction Fraction::operator-(const Fraction& other) {
+    Fraction result = *this;
+    result -= other;
+    return result;
+}
+
+Fraction Fraction::operator-(int other) {
+    Fraction result = *this;
+    result -= other;
+    return result;
+}
+
+Fraction Fraction::operator-(double other) {
+    Fraction result = *this;
+    result -= other;
+    return result;
 }
 
 Fraction operator+(int left, const Fraction& right) {
     Fraction leftFrac(left);
-    return leftFrac + right;
+    Fraction temp = leftFrac + right;
+    return temp;
 }
 
 Fraction operator+(double left, const Fraction& right) {
     int scale = static_cast<int>(std::pow(kBase, kNumberDecimalPlaces));
     int intPart = static_cast<int>(left * scale);
     Fraction leftFrac(intPart, scale);
-    return leftFrac + right;
+    Fraction temp = leftFrac + right;
+    return temp;
 }

@@ -1,11 +1,11 @@
 #ifndef FRACTION_H
 #define FRACTION_H
 
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 class Fraction {
-private:
+ private:
     int numerator;
     int denominator;
 
@@ -13,7 +13,7 @@ private:
     void Simplification();
     int parseNumber(const char*& str);
 
-public:
+ public:
     Fraction();
     Fraction(int num, int den = 1);
     Fraction(const char* line);
@@ -38,9 +38,16 @@ public:
     Fraction operator+(int other);
     Fraction operator+(double other);
 
-    friend Fraction operator+(double left, const Fraction& right);
-    friend Fraction operator+(int left, const Fraction& right);
-};
+    Fraction& operator-=(const Fraction& other);
+    Fraction& operator-=(int other);
+    Fraction& operator-=(double other);
 
+    Fraction operator-(const Fraction& other);
+    Fraction operator-(int other);
+    Fraction operator-(double other);
+
+    //friend Fraction operator+(double left, const Fraction& right);
+    //friend Fraction operator+(int left, const Fraction& right);
+};
 
 #endif

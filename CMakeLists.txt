@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(BaseFlats)
+project(FractionTest)
 
 set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
 
