@@ -45,9 +45,6 @@ class Fraction {
     Fraction operator-(const Fraction& other);
     Fraction operator-(int other);
     Fraction operator-(double other);
-
-    //friend Fraction operator+(double left, const Fraction& right);
-    //friend Fraction operator+(int left, const Fraction& right);
 };
 
 #endif
