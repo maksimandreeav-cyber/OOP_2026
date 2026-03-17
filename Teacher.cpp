@@ -1,24 +1,34 @@
 #include "Persons.h"
 
-Teacher::Teacher() : Person(), haveDissertation(false){};
+Teacher::Teacher() : DepartmentHead(), haveLiterature(false) {
+    std::cout << "Teacher constructor\n";
+};
 
-Teacher::Teacher(int a, char* n, bool d) : Person(a, n), haveDissertation(d){};
+Teacher::Teacher(int a, char* n, char* d, bool l) : DepartmentHead(a, n, d), haveLiterature(l) {
+    std::cout << "Teacher constructor\n";
+};
 
-Teacher::Teacher(Teacher& copy) : Person(copy), haveDissertation(copy.GetHaveDissartation()){};
+Teacher::Teacher(Teacher& copy) : DepartmentHead(copy), haveLiterature(copy.GetHaveLiterature()) {
+    std::cout << "Teacher constructor\n";
+};
+
+Teacher::~Teacher() {
+    std::cout << "Teacher destructor\n";
+}
 
 Teacher& Teacher::operator=(const Teacher& other) {
     if (this != &other) {
-        Person::operator=(other);
-        haveDissertation = other.haveDissertation;
+        DepartmentHead::operator=(other);
+        haveLiterature = other.haveLiterature;
     }
     return *this;
 }
 
-bool Teacher::GetHaveDissartation() const {
-    return haveDissertation;
+bool Teacher::GetHaveLiterature() const {
+    return haveLiterature;
 }
 
 void Teacher::Show() {
-    std::cout << "Преподаватель " << name << ", возрастом " << age << " лет, собственная диссертация "
-              << (haveDissertation == true ? "имеется" : "отсутствует") << std::endl;
+    std::cout << "Преподаватель на кафедре " << department << ", " << name << ", возрастом " << age << " лет, собственная литература "
+              << (haveLiterature == true ? "имеется" : "отсутствует") << std::endl;
 }

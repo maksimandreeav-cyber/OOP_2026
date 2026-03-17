@@ -1,6 +1,7 @@
 #include "Persons.h"
 
 Person::Person() : age(0), name(nullptr) {
+    std::cout << "Person constructor\n";
 }
 
 Person::Person(int a, char* n) : age(a), name(nullptr) {
@@ -8,6 +9,7 @@ Person::Person(int a, char* n) : age(a), name(nullptr) {
         name = new char[std::strlen(n) + 1];
         strncpy(name, n, strlen(n) + 1);
     }
+    std::cout << "Person constructor\n";
 }
 
 Person::Person(Person& copy) : age(copy.GetAge()) {
@@ -16,10 +18,12 @@ Person::Person(Person& copy) : age(copy.GetAge()) {
     }
     name = new char[strlen(copy.name) + 1];
     strncpy(name, copy.GetName(), strlen(copy.name) + 1);
+    std::cout << "Person constructor\n";
 }
 
 Person::~Person() {
     delete[] name;
+    std::cout << "Person destructor\n";
 }
 
 Person& Person::operator=(const Person& other) {

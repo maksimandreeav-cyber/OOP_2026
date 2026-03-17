@@ -1,16 +1,20 @@
 #include "Persons.h"
 
 DepartmentHead::DepartmentHead() : Person(), department(nullptr) {
+    std::cout << "Department constructor\n";
 }
 
 DepartmentHead::DepartmentHead(int a, char* n, char* d) : Person(a, n), department(d) {
+    std::cout << "Department constructor\n";
 }
 
 DepartmentHead::DepartmentHead(DepartmentHead& copy) : Person(copy), department(copy.GetDepartment()) {
+    std::cout << "Department constructor\n";
 }
 
 DepartmentHead::~DepartmentHead() {
     delete[] department;
+    std::cout << "Department destructor\n";
 }
 
 DepartmentHead& DepartmentHead::operator=(const DepartmentHead& other) {

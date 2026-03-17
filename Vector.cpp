@@ -27,6 +27,7 @@ void Vector::Push(Person* a) {
 
 void Vector::Print() {
     for (int i = 0; i < count; i++) {
+        std::cout << '[' << i << ']';
         array[i]->Show();
     }
 }
@@ -40,7 +41,13 @@ void Vector::Remove(int a) {
 
 void Vector::Clear() {
     if (array != nullptr) {
+        for (int i = 0; i < count; i++) {
+            if (array[i] != nullptr) {
+                delete array[i];
+            }
+        }
         delete[] array;
+        array = nullptr;
     }
     count = 0;
 }

@@ -8,6 +8,8 @@ void CreateStudent() {
     int age{};
     char* name = new char[kMaxNameLen];
     int numberTerm{};
+    char* department = new char[kMaxNameLen];
+    bool literature = false;
 
     std::cout << "Введите ФИО студента: ";
     std::cin.ignore(kMaxNameLen, '\n');
@@ -19,7 +21,16 @@ void CreateStudent() {
     std::cout << "Введите номер курса: ";
     std::cin >> numberTerm;
 
-    Student* newStudent = new Student(age, name, numberTerm);
+    std::cout << "Введите его факультет: ";
+    std::cin.ignore(kMaxNameLen, '\n');
+    std::cin.getline(department, kMaxNameLen);
+
+    std::cout << "Есть ли у него литература?(у, если да): ";
+    char symbol{};
+    std::cin >> symbol;
+    literature = symbol == 'y' ? true : false;
+
+    Student* newStudent = new Student(age, name, department, literature, numberTerm);
     Person::GetVector().Push(newStudent);
     delete[] name;
 }
@@ -27,7 +38,8 @@ void CreateStudent() {
 void CreateTeacher() {
     int age{};
     char* name = new char[kMaxNameLen];
-    bool haveDissertation{false};
+    bool literature{false};
+    char* department = new char[kMaxNameLen];
 
     std::cout << "Введите ФИО преподавателя: ";
     std::cin.ignore(kMaxNameLen, '\n');
@@ -36,12 +48,16 @@ void CreateTeacher() {
     std::cout << "Введите возраст: ";
     std::cin >> age;
 
-    std::cout << "Есть ли у него диссертация?(у, если да): ";
+    std::cout << "Есть ли у него литература?(у, если да): ";
     char symbol{};
     std::cin >> symbol;
-    haveDissertation = symbol == 'y' ? true : false;
+    literature = symbol == 'y' ? true : false;
 
-    Teacher* newTeacher = new Teacher(age, name, haveDissertation);
+    std::cout << "Введите его факультет: ";
+    std::cin.ignore(kMaxNameLen, '\n');
+    std::cin.getline(department, kMaxNameLen);
+
+    Teacher* newTeacher = new Teacher(age, name, department, literature);
     Person::GetVector().Push(newTeacher);
 }
 
