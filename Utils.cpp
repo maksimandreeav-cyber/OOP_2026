@@ -18,7 +18,7 @@ void CreateStudent() {
     std::cout << "Введите возраст: ";
     std::cin >> age;
 
-    std::cout << "Введите номер курса: ";
+    std::cout << "Введите номер семестра: ";
     std::cin >> numberTerm;
 
     std::cout << "Введите его факультет: ";
@@ -86,7 +86,7 @@ void OutputArray() {
 }
 
 void RemoveElement() {
-    std::cout << "Введите индексэлемента, который надо удалить: ";
+    std::cout << "Введите индекс элемента, который надо удалить: ";
     int index{};
     std::cin >> index;
     Person::GetVector().Remove(index);

@@ -4,11 +4,11 @@
 void Vector::NewPlace() {
     if (size == 0) {
         size++;
-        Person** temp = new Person*[size];
+        Person** temp = new Person* [size] { nullptr };
         array = temp;
     } else {
         size *= 2;
-        Person** temp = new Person*[size];
+        Person** temp = new Person* [size] { nullptr };
         for (int i = 0; i < count; i++) {
             temp[i] = array[i];
         }
@@ -34,6 +34,9 @@ void Vector::Print() {
 
 void Vector::Remove(int a) {
     count--;
+    if (array[a] != nullptr) {
+        delete array[a];
+    }
     for (int i = a; i < count; i++) {
         array[i] = array[i + 1];
     }
@@ -50,4 +53,5 @@ void Vector::Clear() {
         array = nullptr;
     }
     count = 0;
+    size = 0;
 }
