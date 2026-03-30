@@ -32,14 +32,34 @@ class Person {
     virtual void Show() = 0;
 };
 
-class DepartmentHead : public Person {
+class Teacher : public Person {
+ protected:
+    int salary;
+
+ public:
+    Teacher();
+
+    Teacher(int a, char* n, int s);
+
+    Teacher(Teacher& copy);
+
+    ~Teacher();
+
+    Teacher& operator=(const Teacher& other);
+
+    int GetSalary() const;
+
+    void Show() override;
+};
+
+class DepartmentHead : public Teacher {
  protected:
     char* department;
 
  public:
     DepartmentHead();
 
-    DepartmentHead(int a, char* n, char* d);
+    DepartmentHead(int a, char* n, char* d, int s);
 
     DepartmentHead(DepartmentHead& copy);
 
@@ -52,34 +72,14 @@ class DepartmentHead : public Person {
     void Show() override;
 };
 
-class Teacher : public DepartmentHead {
- protected:
-    bool haveLiterature;
-
- public:
-    Teacher();
-
-    Teacher(int a, char* n, char* d, bool l);
-
-    Teacher(Teacher& copy);
-
-    ~Teacher();
-
-    Teacher& operator=(const Teacher& other);
-
-    bool GetHaveLiterature() const;
-
-    void Show() override;
-};
-
-class Student : public Teacher {
+class Student : public Person {
  private:
     int numberTerm;
 
  public:
     Student();
 
-    Student(int a, char* n, char* d, bool l, int num);
+    Student(int a, char* n, int num);
 
     Student(Student& copy);
 

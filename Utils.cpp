@@ -8,8 +8,6 @@ void CreateStudent() {
     int age{};
     char* name = new char[kMaxNameLen];
     int numberTerm{};
-    char* department = new char[kMaxNameLen];
-    bool literature = false;
 
     std::cout << "Введите ФИО студента: ";
     std::cin.ignore(kMaxNameLen, '\n');
@@ -21,16 +19,7 @@ void CreateStudent() {
     std::cout << "Введите номер семестра: ";
     std::cin >> numberTerm;
 
-    std::cout << "Введите его факультет: ";
-    std::cin.ignore(kMaxNameLen, '\n');
-    std::cin.getline(department, kMaxNameLen);
-
-    std::cout << "Есть ли у него литература?(у, если да): ";
-    char symbol{};
-    std::cin >> symbol;
-    literature = symbol == 'y' ? true : false;
-
-    Student* newStudent = new Student(age, name, department, literature, numberTerm);
+    Student* newStudent = new Student(age, name, numberTerm);
     Person::GetVector().Push(newStudent);
     delete[] name;
 }
@@ -38,8 +27,7 @@ void CreateStudent() {
 void CreateTeacher() {
     int age{};
     char* name = new char[kMaxNameLen];
-    bool literature{false};
-    char* department = new char[kMaxNameLen];
+    int salary{};
 
     std::cout << "Введите ФИО преподавателя: ";
     std::cin.ignore(kMaxNameLen, '\n');
@@ -48,16 +36,10 @@ void CreateTeacher() {
     std::cout << "Введите возраст: ";
     std::cin >> age;
 
-    std::cout << "Есть ли у него литература?(у, если да): ";
-    char symbol{};
-    std::cin >> symbol;
-    literature = symbol == 'y' ? true : false;
+    std::cout << "Введите зарплату: ";
+    std::cin >> salary;
 
-    std::cout << "Введите его факультет: ";
-    std::cin.ignore(kMaxNameLen, '\n');
-    std::cin.getline(department, kMaxNameLen);
-
-    Teacher* newTeacher = new Teacher(age, name, department, literature);
+    Teacher* newTeacher = new Teacher(age, name, salary);
     Person::GetVector().Push(newTeacher);
 }
 
@@ -65,6 +47,7 @@ void CreateDepartmentHead() {
     int age{};
     char* name = new char[kMaxNameLen];
     char* department = new char[kMaxNameLen];
+    int salary{};
 
     std::cout << "Введите ФИО завкафедры: ";
     std::cin.ignore(kMaxNameLen, '\n');
@@ -73,11 +56,14 @@ void CreateDepartmentHead() {
     std::cout << "Введите возраст: ";
     std::cin >> age;
 
+    std::cout << "Введите зарплату: ";
+    std::cin >> salary;
+
     std::cout << "На какой кафедре он работает: ";
     std::cin.ignore(kMaxNameLen, '\n');
     std::cin.getline(department, kMaxNameLen);
 
-    DepartmentHead* newDepartmentHead = new DepartmentHead(age, name, department);
+    DepartmentHead* newDepartmentHead = new DepartmentHead(age, name, department, salary);
     Person::GetVector().Push(newDepartmentHead);
 }
 

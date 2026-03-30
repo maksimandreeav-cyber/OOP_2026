@@ -1,14 +1,14 @@
 #include "Persons.h"
 
-DepartmentHead::DepartmentHead() : Person(), department(nullptr) {
+DepartmentHead::DepartmentHead() : Teacher(), department(nullptr) {
     std::cout << "Department constructor\n";
 }
 
-DepartmentHead::DepartmentHead(int a, char* n, char* d) : Person(a, n), department(d) {
+DepartmentHead::DepartmentHead(int a, char* n, char* d, int s) : Teacher(a, n, s), department(d) {
     std::cout << "Department constructor\n";
 }
 
-DepartmentHead::DepartmentHead(DepartmentHead& copy) : Person(copy), department(copy.GetDepartment()) {
+DepartmentHead::DepartmentHead(DepartmentHead& copy) : Teacher(copy), department(copy.GetDepartment()) {
     std::cout << "Department constructor\n";
 }
 
@@ -19,7 +19,7 @@ DepartmentHead::~DepartmentHead() {
 
 DepartmentHead& DepartmentHead::operator=(const DepartmentHead& other) {
     if (&other != this) {
-        Person::operator=(other);
+        Teacher::operator=(other);
         if (other.department != nullptr) {
             if (department != nullptr) {
                 delete[] department;
@@ -36,5 +36,5 @@ char* DepartmentHead::GetDepartment() const {
 }
 
 void DepartmentHead::Show() {
-    std::cout << name << " - заведующий кафедры " << department << ", возрастом " << age << std::endl;
+    std::cout << name << " - заведующий кафедры " << department << ", возрастом " << age << " с зарплатой " << salary << std::endl;
 }
