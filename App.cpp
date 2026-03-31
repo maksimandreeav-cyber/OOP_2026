@@ -39,6 +39,7 @@ void RunAction(int numberAction) {
             ClearArray();
             break;
         case Actions::exits:
+            ClearArray();
             break;
         default:
             std::cout << "Такого действия нет!" << std::endl;
