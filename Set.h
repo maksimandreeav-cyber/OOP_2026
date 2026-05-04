@@ -9,14 +9,6 @@ class Set : public Container<T> {
     using Container<T>::size;
     using Container<T>::pdata;
 
-    int Compare(const T& a, const T& b) const;
-
-    void Sort();
-
- public:
-    using Container<T>::Container;
-
-    
    int Compare(const T& a, const T& b) const {
       if (a < b) {
          return -1;
@@ -26,8 +18,6 @@ class Set : public Container<T> {
       }
       return 0;
    }
-
-
 
    void Sort() {
       for (int i = 0; i < size - 1; i++) {
@@ -45,16 +35,27 @@ class Set : public Container<T> {
       }
    }
 
+ public:
+    using Container<T>::Container;
+
    void push(const T& element) {
-      if (is_element(element)) {
-         return;
-      }
+      if (is_element(element)) return;
+
       T* temp = new T[size + 1];
+
       for (int i = 0; i < size; i++) {
-         temp[i] = pdata[i];
+         temp[i] = pdata[i];  
       }
 
-      temp[size] = element;
+      if constexpr (std::is_same_v<T, char*>) {
+         const char* literal = static_cast<const char*>(element);
+         size_t len = strlen(literal) + 1;
+         temp[size] = new char[len];
+         strcpy(temp[size], literal);
+      } else {
+         temp[size] = element;
+      }
+
       delete[] pdata;
       pdata = temp;
       size++;
@@ -164,16 +165,13 @@ class Set : public Container<T> {
       }
       return true;
    }
-
    
 };
 
-template<> void Set<char*>::push(const char*& element);
+template<>
+int Set<char*>::Compare(char* const& a, char* const& b) const {
+    return strcmp(a, b);
+}
 
-template<> int Set<char*>::Compare(const char*& a, const char*& b) const;
-
-
-template <typename T>
-friend std::ostream& operator<<(std::ostream& os, const Set<T>& set);
 
 #endif  // SET_H

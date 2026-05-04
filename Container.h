@@ -15,13 +15,7 @@ class Container {
     int size;
     T* pdata;
 
-    void NewPlace();
-
-    void DeletePlace();
-
- public:
-    
-   void NewPlace() {
+    void NewPlace() {
       max_size = max_size * 2;
       T* temp = new T[max_size];
       for (int i = 0; i < size; i++) {
@@ -42,6 +36,9 @@ class Container {
          pdata = temp;
       }
    }
+
+ public:
+   
 
    Container() : max_size(kMinSizeContainer), size(0), pdata(nullptr) {}
 
@@ -81,7 +78,7 @@ class Container {
          other.pdata = nullptr;
       }
       return *this;
-   }
+   } 
 
    T& operator[](int a) {
       if (a >= 0 && a < size) {
@@ -134,13 +131,36 @@ class Container {
       return result;
    }
 
+   friend std::ostream& operator<<(std::ostream& os, const Container<T>& container) {
+         int size = container.GetSize();
+         if (size == 0) {
+            os << "(пусто)" << std::endl;
+            return os;
+         }
+
+         for (int i = 0; i < size; i++) {
+            os << container.GetPData()[i];
+            if (i < size - 1) {
+                  os << ' ';
+            }
+         }
+         os << std::endl;
+         return os;
+   }
+
 };
 
 template<>
-void Container<char*>::NewPlace();
+void Container<char*>::DeletePlace();
 
 template<>
-void Container<char*>::DeletePlace();
+void Container<char*>::push(char* s);
+
+template<>
+int Container<char*>::find(char* s);
+
+template<>
+void Container<char*>::pop(int index);
 
 template<>
 Container<char*>::Container(const Container& other);
@@ -151,8 +171,5 @@ Container<char*>::~Container();
 template<>
 Container<char*>& Container<char*>::operator=(Container&& other);
 
-template <typename U>
-friend std::ostream& operator<<(std::ostream& os, const Container<U>& container);
-
-
+#include "Container.tpp"
 #endif  // CONTAINER_H
