@@ -27,7 +27,7 @@ class Polynomial {
     Polynomial& operator-=(Polynomial& a);
     Polynomial& operator*(Polynomial& a);
     Polynomial& operator*=(Polynomial& a);
-    Polynomial& operator=(Polynomial& a);
+    Polynomial& operator=(const Polynomial& a);
     bool operator==(Polynomial& a);
     friend std::istream& operator>>(std::istream& is, Polynomial& a);
     friend std::ostream& operator<<(std::ostream& os, const Polynomial& a);

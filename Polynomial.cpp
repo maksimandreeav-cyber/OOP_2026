@@ -1,14 +1,18 @@
 #include "Polynomial.h"
 #include <cmath>
 
-Polynomial::Polynomial() : size(0), max_size(5) {
+namespace {
+    const int minSize = 5;
+}
+
+Polynomial::Polynomial() : size(0), max_size(minSize) {
     terms = new Term[max_size];
 }
-Polynomial::Polynomial(double a) : size(1), max_size(5) {
+Polynomial::Polynomial(double a) : size(1), max_size(minSize) {
     terms = new Term[max_size];
     terms[0] = Term(a, 0);
 }
-Polynomial::Polynomial(double c, int p) : size(1), max_size(5) {
+Polynomial::Polynomial(double c, int p) : size(1), max_size(minSize) {
     terms = new Term[max_size];
     terms[0] = Term(c, p);
 }
@@ -50,7 +54,7 @@ void Polynomial::pop(int p) {
         }
     }
 
-    if (size < max_size / 4 && max_size > 5) {
+    if (size < max_size / 4 && max_size > minSize) {
         max_size /= 2;
         Term* temp = new Term[max_size];
         for (int i = 0; i < size; ++i) {
@@ -147,7 +151,7 @@ Polynomial& Polynomial::operator*(Polynomial& a) {
 Polynomial& Polynomial::operator*=(Polynomial& a) {
     return *this * a;
 }
-Polynomial& Polynomial::operator=(Polynomial& a) {
+Polynomial& Polynomial::operator=(const Polynomial& a) {
     if (this == &a) {
         return *this;
     }
@@ -198,7 +202,7 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& poly) {
 std::istream& operator>>(std::istream& is, Polynomial& poly) {
     is >> std::ws;
 
-    char ch;
+    char ch{};
     bool firstTerm = true;
 
     while (is.good()) {

@@ -58,14 +58,14 @@ std::istream& operator>>(std::istream& is, Term& term) {
         return is;
     }
     is >> std::ws;
-    char x;
+    char x{};
     if (!(is >> x) || x != 'x') {
         is.setstate(std::ios::failbit);
         return is;
     }
     is >> std::ws;
 
-    char caret;
+    char caret{};
     if (!(is >> caret) || caret != '^') {
         is.setstate(std::ios::failbit);
         return is;
