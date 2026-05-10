@@ -1,18 +1,34 @@
+#include <iostream>
+#include "Term.h"
 class Polynomial {
-    private:
+ private:
     Term* terms;
     int size;
     int max_size;
-    bool order;
+    void swap(Term& a, Term& b);
 
-    public:
+ public:
     Polynomial();
     Polynomial(double a);
     Polynomial(double c, int p);
-    Polynomial(Term& other);
+    Polynomial(Polynomial& other);
 
-    push(Term& term);
-    pop(int p);
-    Simplication();
-    Calculation(double x);
+    void push(Term& term);
+    void pop(int p);
+    void Simplication();
+    double Calculation(double x);
+
+    Term* GetTerms() const;
+    int GetSize() const;
+
+    Polynomial& operator+(Polynomial& a);
+    Polynomial& operator+=(Polynomial& a);
+    Polynomial& operator-(Polynomial& a);
+    Polynomial& operator-=(Polynomial& a);
+    Polynomial& operator*(Polynomial& a);
+    Polynomial& operator*=(Polynomial& a);
+    Polynomial& operator=(Polynomial& a);
+    bool operator==(Polynomial& a);
+    friend std::istream& operator>>(std::istream& is, Polynomial& a);
+    friend std::ostream& operator<<(std::ostream& os, const Polynomial& a);
 };
