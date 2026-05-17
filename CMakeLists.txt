@@ -15,7 +15,7 @@ set(POLINOMS_HEADERS
 )
 
 set(APP_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 set(APP_HEADERS)
 
