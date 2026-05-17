@@ -7,7 +7,9 @@ Term::Term(double c, int p) : coef(c), power(p) {
 }
 
 Term Term::operator+(Term other) {
-    coef += other.coef;
+    if (power == other.GetPower()) {
+        coef += other.coef;
+    }
     return *this;
 }
 
@@ -53,24 +55,40 @@ std::ostream& operator<<(std::ostream& os, const Term& term) {
 
 std::istream& operator>>(std::istream& is, Term& term) {
     is >> std::ws;
+
     if (!(is >> term.coef)) {
-        is.setstate(std::ios::failbit);
+        if (is.peek() == 'x') {
+            is.get();
+            term.coef = 1.0;
+        } else {
+            is.setstate(std::ios::failbit);
+            return is;
+        }
+    }
+
+    is >> std::ws;
+
+    if (is.peek() != 'x') {
+        term.power = 0;
         return is;
     }
-    is >> std::ws;
+
     char x{};
-    if (!(is >> x) || x != 'x') {
-        is.setstate(std::ios::failbit);
+    is.get(x);
+    is >> std::ws;
+    if (is.peek() != '^') {
+        term.power = 1;
         return is;
     }
-    is >> std::ws;
 
     char caret{};
-    if (!(is >> caret) || caret != '^') {
+    is.get(caret);
+
+    is >> std::ws;
+
+    if (!(is >> term.power)) {
         is.setstate(std::ios::failbit);
         return is;
     }
-    is >> std::ws;
-
     return is;
 }

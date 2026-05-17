@@ -2,7 +2,7 @@
 #include <cmath>
 
 namespace {
-    const int minSize = 5;
+const int minSize = 5;
 }
 
 Polynomial::Polynomial() : size(0), max_size(minSize) {
@@ -21,6 +21,10 @@ Polynomial::Polynomial(Polynomial& other) : size(other.size), max_size(other.max
     for (int i = 0; i < size; i++) {
         terms[i] = other.terms[i];
     }
+}
+
+Polynomial::~Polynomial() {
+    delete[] terms;
 }
 
 void Polynomial::push(Term& term) {
@@ -71,7 +75,6 @@ void Polynomial::swap(Term& a, Term& b) {
     b = temp;
 }
 void Polynomial::Simplication() {
-    // Сначала сортируем термы по степеням (по убыванию)
     for (int i = 0; i < size - 1; ++i) {
         for (int j = i + 1; j < size; ++j) {
             if (terms[i].GetPower() < terms[j].GetPower()) {
@@ -196,6 +199,7 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& poly) {
     if (firstTerm) {
         os << "0";
     }
+    os << std::endl;
     return os;
 }
 
@@ -204,8 +208,14 @@ std::istream& operator>>(std::istream& is, Polynomial& poly) {
 
     char ch{};
     bool firstTerm = true;
+    bool readSomething = false;
 
     while (is.good()) {
+        int nextChar = is.peek();
+        if (nextChar == EOF || nextChar == '\n') {
+            break;
+        }
+
         char sign = '+';
         if (is.peek() == '+' || is.peek() == '-') {
             is.get(ch);
@@ -221,10 +231,15 @@ std::istream& operator>>(std::istream& is, Polynomial& poly) {
             }
             poly.push(tempTerm);
             firstTerm = false;
+            readSomething = true;
         } else {
             break;
         }
         is >> std::ws;
+    }
+
+    if (!readSomething) {
+        is.setstate(std::ios::failbit);
     }
 
     return is;

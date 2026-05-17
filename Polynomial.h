@@ -13,6 +13,8 @@ class Polynomial {
     Polynomial(double c, int p);
     Polynomial(Polynomial& other);
 
+    ~Polynomial();
+
     void push(Term& term);
     void pop(int p);
     void Simplication();
